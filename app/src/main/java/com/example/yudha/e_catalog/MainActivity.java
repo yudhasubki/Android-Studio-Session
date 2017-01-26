@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import Session.SessionManager;
 
@@ -21,12 +20,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         sm = new SessionManager(getApplicationContext());
-        sm.getLoggedIn();
 
+        isLogin();
         ArrayList nama = sm.getDetail();
-
         tv1 = (TextView)findViewById(R.id.nama);
-        tv1.setText(String.valueOf(nama.get(0)));
+        tv1.setText(String.valueOf(nama.get(1)));
 
         logout = (Button)findViewById(R.id.buLogout);
 
@@ -43,5 +41,16 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    public void isLogin(){
+        SessionManager sm = new SessionManager(getApplicationContext());
+        if(!sm.checkLogin()){
+            Intent i = new Intent(getBaseContext(), LoginActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
+        }
+    }
+
 
 }

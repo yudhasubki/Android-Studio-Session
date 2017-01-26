@@ -1,16 +1,8 @@
 package Session;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-
-import com.example.yudha.e_catalog.LoginActivity;
-import com.example.yudha.e_catalog.MainActivity;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by Yudha on 1/26/2017.
@@ -18,7 +10,7 @@ import java.util.HashMap;
 
 public class SessionManager {
     SharedPreferences sessionManager;
-    Activity activity;
+    Context context;
     //Constructor
     public SessionManager(Context context){
          sessionManager = context.getSharedPreferences("myRef", Context.MODE_PRIVATE);
@@ -32,27 +24,32 @@ public class SessionManager {
         editor.commit();
     }
 
-    public boolean getLoggedIn(){
-        return sessionManager.getBoolean("IsLoggedIn", true);
+    //Check Login bernilai true or false
+    public boolean checkLogin(){
+        return sessionManager.getBoolean("IsLoggedIn", false);
     }
 
-
+    //Hanya Check Session Ada atau Tidak
     public String loadData(){
         String FileContent = sessionManager.getString("UserName","No Username");
         FileContent += "IsLoggedIn"+sessionManager.getBoolean("IsLoggedIn", false);
         return FileContent;
     }
 
+    //Mengambil seluruh data yang di save
     public ArrayList getDetail(){
         ArrayList add = new ArrayList();
         add.add(sessionManager.getString("UserName","No Session"));
+        add.add(sessionManager.getBoolean("IsLoggedIn",false));
         return add;
     }
 
+    //Menghapus Session
     public void isLogout(){
         SharedPreferences.Editor editor = sessionManager.edit();
         editor.clear();
         editor.commit();
 
     }
+
 }
